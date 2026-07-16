@@ -137,6 +137,8 @@ void clearTasks(TaskNode*& head) {
 
         delete temp;
     }
+
+    head = nullptr;
 }
 
 void printTask(const Task& task) {
