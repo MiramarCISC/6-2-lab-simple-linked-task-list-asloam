@@ -12,7 +12,7 @@ bool isValidPriority(int priority) {
 Task createTask(string description, int priority) {
     Task task;
 
-   task.description = description;
+    task.description = description;
 
     if (isValidPriority(priority)) {
         task.priority = priority;
@@ -53,9 +53,10 @@ TaskNode* findTask(TaskNode* head, string description) {
     while (head != nullptr) {
         if (head->data.description == description) {
             return head;
-    }
+        }
     
-    head = head->next;}
+        head = head->next;
+    }
     
     return nullptr;
 }
@@ -92,9 +93,9 @@ int removeCompletedTasks(TaskNode*& head) {
         if (current->next->data.completed) { 
             TaskNode* temp = current->next;
 
-    current->next = temp->next;
-    delete temp; 
-    removed++; 
+            current->next = temp->next;
+            delete temp; 
+            removed++; 
         } else { 
             current = current->next;
         }
