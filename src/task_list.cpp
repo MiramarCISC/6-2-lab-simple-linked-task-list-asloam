@@ -3,65 +3,127 @@
 
 using namespace std;
 
+// Returns true if priority is from 1 to 5
 bool isValidPriority(int priority) {
-    // TODO: Return true when priority is from 1 to 5.
-    return false;
+    return priority >= 1 && priority <= 5;
 }
 
+// Creates a new task, defaulting to priority 1 if the provided priority is invalid
 Task createTask(string description, int priority) {
     Task task;
 
-    // TODO:
-    // Store the description.
-    // Store the priority if valid; otherwise store 1.
-    // New tasks should start as not completed.
+    task.description = description;
+    task.completed = false;
 
+    if (isValidPriority(priority)) {
+        task.priority = priority;
+    } else {
+        task.priority = 1;
+    }
+    
     return task;
 }
 
+// Dynamically allocates a new TaskNode at the head of a list
 void insertFront(TaskNode*& head, Task task) {
-    // TODO:
-    // Dynamically allocate a new TaskNode.
-    // Store task in the node.
-    // Point the new node to the old head.
-    // Update head.
+    TaskNode* taskNode = new TaskNode;
+
+    taskNode->data = task;
+    taskNode->next = head;
+
+    head = taskNode;
 }
 
+// Returns the total number of nodes in a list
 int countTasks(const TaskNode* head) {
-    // TODO: Traverse the list and count nodes.
-    return 0;
+    int count = 0;
+
+    const TaskNode* current = head;
+
+    while (current != nullptr) {
+        count++;
+        current = current->next;
+    }
+
+    return count;
 }
 
+// Returns the first node that matches a given description, returns nullptr if none found
 TaskNode* findTask(TaskNode* head, string description) {
-    // TODO:
-    // Traverse the list.
-    // Return the first node whose task description matches.
-    // Return nullptr if not found.
+    TaskNode* current = head;
+
+    while (current != nullptr) {
+        if (current->data.description == description) return current;
+
+        current = current->next;
+    }
+
     return nullptr;
 }
 
+// Marks a given task as complete, returns true upon success
 bool markTaskComplete(TaskNode* head, string description) {
-    // TODO:
-    // Find the task.
-    // If found, set completed to true and return true.
-    // Otherwise return false.
+    TaskNode* targetNode = findTask(head, description);
+
+    if (targetNode != nullptr) {
+        targetNode->data.completed = true;
+        return true;
+    }
+
     return false;
 }
 
+// Removes all completed tasks and returns the number of tasks removed
 int removeCompletedTasks(TaskNode*& head) {
-    // TODO:
-    // Remove all completed tasks.
-    // Return the number of removed nodes.
-    // Be sure to handle completed tasks at the head of the list.
-    return 0;
+    int removedCount = 0;
+
+    // Case 1: Completed tasks at the head of the list
+    while (head != nullptr && head->data.completed) {
+        TaskNode* temp = head;
+        head = head->next;
+        delete temp;
+        removedCount++;
+    }
+
+    // Case 2: Completed tasks inside the rest of the list
+    if (head == nullptr) return removedCount;
+
+    TaskNode* current = head->next;
+    TaskNode* previous = head;
+
+    while (current != nullptr) {
+        if (current->data.completed) {
+            previous->next = current->next;
+
+            TaskNode* temp = current;
+            current = current->next;
+            delete temp;
+
+            removedCount++;
+        } else {
+            // No deletion, just moves both pointers forward
+            previous = current;
+            current = current->next;
+        }
+    }
+
+    return removedCount;
 }
 
+// Deletes all nodes in a list and sets the head to nullptr
 void clearTasks(TaskNode*& head) {
-    // TODO:
-    // Delete every node in the list.
-    // Set head to nullptr.
+    TaskNode* current = head;
+
+    while (current != nullptr) {
+        TaskNode* nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+
+    head = nullptr;
 }
 
+// Prints all data of a single task
 void printTask(const Task& task) {
     cout << task.description
          << " | priority " << task.priority
@@ -69,6 +131,7 @@ void printTask(const Task& task) {
          << endl;
 }
 
+// Prints all data of all tasks in a given list
 void printTasks(const TaskNode* head) {
     if (head == nullptr) {
         cout << "No tasks." << endl;
