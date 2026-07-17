@@ -9,7 +9,7 @@ bool isValidPriority(int priority) {
 }
 
 // Creates a new task, defaulting to priority 1 if the provided priority is invalid
-Task createTask(string description, int priority) {
+Task createTask(string description, int priority) { 
     Task task;
 
     task.description = description;
@@ -41,7 +41,9 @@ int countTasks(const TaskNode* head) {
     const TaskNode* current = head;
 
     while (current != nullptr) {
+        
         count++;
+        //Aidan: could add extra space here to make it easier to read
         current = current->next;
     }
 
@@ -66,7 +68,9 @@ bool markTaskComplete(TaskNode* head, string description) {
     TaskNode* targetNode = findTask(head, description);
 
     if (targetNode != nullptr) {
+        
         targetNode->data.completed = true;
+        //Aidan: Same here
         return true;
     }
 
@@ -79,8 +83,10 @@ int removeCompletedTasks(TaskNode*& head) {
 
     // Case 1: Completed tasks at the head of the list
     while (head != nullptr && head->data.completed) {
+      
         TaskNode* temp = head;
         head = head->next;
+      
         delete temp;
         removedCount++;
     }
@@ -122,7 +128,7 @@ void clearTasks(TaskNode*& head) {
 
     head = nullptr;
 }
-
+//Aidan: could also leave what the assignment asked for us todo
 // Prints all data of a single task
 void printTask(const Task& task) {
     cout << task.description
