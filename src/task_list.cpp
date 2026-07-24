@@ -15,11 +15,7 @@ Task createTask(string description, int priority) {
     task.description = description;
     task.completed = false;
 
-    if (isValidPriority(priority)) {
-        task.priority = priority;
-    } else {
-        task.priority = 1;
-    }
+    task.priority = isValidPriority(priority) ? priority : 1;
     
     return task;
 }
@@ -86,8 +82,6 @@ int removeCompletedTasks(TaskNode*& head) {
     }
 
     // Case 2: Completed tasks inside the rest of the list
-    if (head == nullptr) return removedCount;
-
     TaskNode* current = head->next;
     TaskNode* previous = head;
 
